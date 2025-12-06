@@ -53,15 +53,15 @@ function obtenerBadgeEstado(estado) {
     // Convertir el estado a minúsculas para comparación
     const estadoLower = (estado || '').toLowerCase();
     // Variable para guardar la clase CSS del badge
-    let claseEstado = 'badge-activo';  // Por defecto, verde (Activo)
+    let claseEstado = 'badge-activo';  // Por defecto, verde (Activo)
     
     // Determinar la clase según el estado
     if (estadoLower === 'inactivo') {
-        claseEstado = 'badge-inactivo';  // Rojo
+        claseEstado = 'badge-inactivo';  // Rojo
     } else if (estadoLower === 'mantenimiento') {
-        claseEstado = 'badge-mantenimiento';  // Amarillo
+        claseEstado = 'badge-mantenimiento';  // Amarillo
     } else if (estadoLower === 'no disponible') {
-        claseEstado = 'badge-inactivo';  // Rojo
+        claseEstado = 'badge-inactivo';  // Rojo
     }
     
     // Retornar HTML con el badge de color
@@ -177,7 +177,7 @@ function listarEquipos() {
                 tbody.innerHTML = `<tr><td colspan="8" class="text-center text-muted py-5">No hay equipos registrados</td></tr>`;
                 // Actualizar el contador de equipos
                 document.getElementById('totalEquipos').textContent = '0';
-                return;  // Detener ejecución
+                return;  // Detener ejecución
             }
             
             // Recorrer cada equipo y crear una fila en la tabla
@@ -205,11 +205,9 @@ function listarEquipos() {
                     <td><small><strong>${fechaMant}</strong></small></td>
                     <td><small><strong>${fechaReg}</strong></small></td>
                     <td>
-                        <!-- Botón Editar: carga el equipo en el formulario -->
                         <button class="btn btn-sm btn-warning me-2" onclick="cargarEquipo(${eq.id}, '${(eq.codigo || '').replace(/'/g, "\\'")}', '${(eq.marca || '').replace(/'/g, "\\'")}', '${(eq.sistema_operativo || '').replace(/'/g, "\\'")}', '${(eq.ram || '').replace(/'/g, "\\'")}', '${(eq.tipo_equipo || '').replace(/'/g, "\\'")}', '${(eq.modelo || '').replace(/'/g, "\\'")}', '${(eq.almacenamiento || '').replace(/'/g, "\\'")}', '${(eq.estado || '').replace(/'/g, "\\'")}', '${eq.fecha_mantenimiento || ''}', '${eq.fecha_registro || ''}')">
                             <i class="fas fa-edit"></i> Editar
                         </button>
-                        <!-- Botón Eliminar: borra el equipo con confirmación -->
                         <button class="btn-delete" onclick="eliminarEquipo(${eq.id})">
                             <i class="fas fa-trash-alt"></i> Eliminar
                         </button>
@@ -252,7 +250,7 @@ function guardarEquipo(e) {
     if (!codigo) {
         // Mostrar mensaje informativo
         mostrarNotificacion('Por favor, ingresa al menos el código del equipo', 'info');
-        return;  // Detener ejecución
+        return;  // Detener ejecución
     }
     
     // Crear objeto con los datos del equipo desde el formulario
@@ -271,9 +269,9 @@ function guardarEquipo(e) {
     
     // Hacer petición POST para crear el equipo
     fetch(apiUrl, {
-        method: "POST",  // POST = crear
+        method: "POST",  // POST = crear
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(equipo)  // Enviar el objeto como JSON
+        body: JSON.stringify(equipo)  // Enviar el objeto como JSON
     })
     .then(response => {
         // Si la respuesta es exitosa (código 200-299)
@@ -327,9 +325,9 @@ function actualizarEquipo() {
     // Hacer petición PUT para actualizar el equipo
     // Nota: ${apiUrl}/${id} → http://host:port/api/equipos/5 (por ejemplo)
     fetch(`${apiUrl}/${id}`, {
-        method: "PUT",  // PUT = actualizar
+        method: "PUT",  // PUT = actualizar
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(equipo)  // Enviar el objeto actualizado como JSON
+        body: JSON.stringify(equipo)  // Enviar el objeto actualizado como JSON
     })
     .then(response => {
         // Si la respuesta es exitosa
@@ -382,9 +380,18 @@ function eliminarEquipo(id) {
     }
 }
 
+// ==================== FUNCIÓN LOG DE INICIO (NUEVO) ====================
+// Función para mostrar un mensaje simple en consola al cargar el script
+function logInicio() {
+    console.log("Script formulario.js cargado correctamente.");
+}
+
 // ==================== INICIALIZACIÓN DE LA APLICACIÓN ====================
 // Este evento se ejecuta cuando la página termina de cargar (DOMContentLoaded)
 document.addEventListener('DOMContentLoaded', function() {
+    // LLAMADA DEL LOG (¡NUEVO!)
+    logInicio();
+    
     // Agregar event listener al formulario para envío (al hacer clic en Guardar)
     document.getElementById("formEquipo").addEventListener("submit", guardarEquipo);
     // Agregar event listener al botón Actualizar
